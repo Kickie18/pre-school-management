@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="PreschoolManagement.API/PreschoolManagement.API.csproj" />
+  <Project Path="PreschoolManagement.Application/PreschoolManagement.Application.csproj" />
+  <Project Path="PreschoolManagement.Domain/PreschoolManagement.Domain.csproj" />
+  <Project Path="PreschoolManagement.Infrastructure/PreschoolManagement.Infrastructure.csproj" />
+</Solution>
