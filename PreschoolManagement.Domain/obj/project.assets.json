@@ -14,16 +14,17 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\WXZ0FRS\\Desktop\\Project-Pre\\PreschoolManagement.Domain\\PreschoolManagement.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\PreschoolManagement.Domain\\PreschoolManagement.Domain.csproj",
       "projectName": "PreschoolManagement.Domain",
-      "projectPath": "C:\\Users\\WXZ0FRS\\Desktop\\Project-Pre\\PreschoolManagement.Domain\\PreschoolManagement.Domain.csproj",
+      "projectPath": "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\PreschoolManagement.Domain\\PreschoolManagement.Domain.csproj",
       "packagesPath": "C:\\Users\\WXZ0FRS\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\WXZ0FRS\\Desktop\\Project-Pre\\PreschoolManagement.Domain\\obj\\",
+      "outputPath": "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\PreschoolManagement.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
+        "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\NuGet.Config",
         "C:\\Users\\WXZ0FRS\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"

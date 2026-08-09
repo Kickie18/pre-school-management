@@ -9,3 +9,15 @@ C:\Users\WXZ0FRS\Desktop\Project-Pre\PreschoolManagement.Domain\obj\Debug\net8.0
 C:\Users\WXZ0FRS\Desktop\Project-Pre\PreschoolManagement.Domain\obj\Debug\net8.0\refint\PreschoolManagement.Domain.dll
 C:\Users\WXZ0FRS\Desktop\Project-Pre\PreschoolManagement.Domain\obj\Debug\net8.0\PreschoolManagement.Domain.pdb
 C:\Users\WXZ0FRS\Desktop\Project-Pre\PreschoolManagement.Domain\obj\Debug\net8.0\ref\PreschoolManagement.Domain.dll
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\bin\Debug\net8.0\PreschoolManagement.Domain.deps.json
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\bin\Debug\net8.0\PreschoolManagement.Domain.dll
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\bin\Debug\net8.0\PreschoolManagement.Domain.pdb
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\obj\Debug\net8.0\PreschoolManagement.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\obj\Debug\net8.0\PreschoolManagement.Domain.AssemblyInfoInputs.cache
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\obj\Debug\net8.0\PreschoolManagement.Domain.AssemblyInfo.cs
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\obj\Debug\net8.0\PreschoolManagement.Domain.csproj.CoreCompileInputs.cache
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\obj\Debug\net8.0\PreschoolManagement.Domain.sourcelink.json
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\obj\Debug\net8.0\PreschoolManagement.Domain.dll
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\obj\Debug\net8.0\refint\PreschoolManagement.Domain.dll
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\obj\Debug\net8.0\PreschoolManagement.Domain.pdb
+C:\Users\WXZ0FRS\Desktop\Git-pre\pre-school-management\PreschoolManagement.Domain\obj\Debug\net8.0\ref\PreschoolManagement.Domain.dll

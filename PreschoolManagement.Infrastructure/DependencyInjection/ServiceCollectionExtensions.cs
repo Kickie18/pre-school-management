@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PreschoolManagement.Application.DTOs;
@@ -15,7 +16,11 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<PreschoolDbContext>();
+        var connectionString = configuration.GetConnectionString("DefaultConnection")
+            ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is missing.");
+
+        services.AddDbContext<PreschoolDbContext>(options =>
+            options.UseSqlServer(connectionString));
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IAuthService, AuthService>();
@@ -36,6 +41,14 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICrudService<SchoolDto, SchoolCreateDto, SchoolUpdateDto>>(sp =>
             new CrudService<School, SchoolDto, SchoolCreateDto, SchoolUpdateDto>(
                 sp.GetRequiredService<IUnitOfWork>(), sp.GetRequiredService<IMapper>(), u => u.Schools));
+
+        services.AddScoped<ICrudService<SchoolBranchDto, SchoolBranchCreateDto, SchoolBranchUpdateDto>>(sp =>
+            new CrudService<SchoolBranch, SchoolBranchDto, SchoolBranchCreateDto, SchoolBranchUpdateDto>(
+                sp.GetRequiredService<IUnitOfWork>(), sp.GetRequiredService<IMapper>(), u => u.SchoolBranches));
+
+        services.AddScoped<ICrudService<AddressDto, AddressCreateDto, AddressUpdateDto>>(sp =>
+            new CrudService<Address, AddressDto, AddressCreateDto, AddressUpdateDto>(
+                sp.GetRequiredService<IUnitOfWork>(), sp.GetRequiredService<IMapper>(), u => u.Addresses));
 
         services.AddScoped<ICrudService<TeacherDto, TeacherCreateDto, TeacherUpdateDto>>(sp =>
             new CrudService<Teacher, TeacherDto, TeacherCreateDto, TeacherUpdateDto>(

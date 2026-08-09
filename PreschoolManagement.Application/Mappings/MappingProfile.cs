@@ -20,6 +20,14 @@ public class MappingProfile : Profile
         CreateMap<SchoolCreateDto, School>();
         CreateMap<SchoolUpdateDto, School>();
 
+        CreateMap<SchoolBranch, SchoolBranchDto>().ReverseMap();
+        CreateMap<SchoolBranchCreateDto, SchoolBranch>();
+        CreateMap<SchoolBranchUpdateDto, SchoolBranch>();
+
+        CreateMap<Address, AddressDto>().ReverseMap();
+        CreateMap<AddressCreateDto, Address>();
+        CreateMap<AddressUpdateDto, Address>();
+
         CreateMap<Teacher, TeacherDto>().ReverseMap();
         CreateMap<TeacherCreateDto, Teacher>();
         CreateMap<TeacherUpdateDto, Teacher>();

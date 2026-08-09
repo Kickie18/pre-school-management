@@ -2,6 +2,7 @@ using AutoMapper;
 using PreschoolManagement.Application.DTOs;
 using PreschoolManagement.Application.Interfaces;
 using PreschoolManagement.Domain.Entities;
+using PreschoolManagement.Domain.Enums;
 using PreschoolManagement.Infrastructure.Identity;
 
 namespace PreschoolManagement.Infrastructure.Services;
@@ -27,6 +28,30 @@ public class AuthService : IAuthService
             throw new InvalidOperationException("User with this email already exists.");
         }
 
+        var role = await _unitOfWork.Roles.GetByIdAsync(request.RoleId, cancellationToken)
+            ?? throw new InvalidOperationException("Invalid role selected.");
+
+        var schoolIds = request.SchoolIds
+            .Where(x => x != Guid.Empty)
+            .Distinct()
+            .ToList();
+
+        var isPreschoolAdmin = string.Equals(role.RoleName, UserRole.PreschoolAdmin.ToString(), StringComparison.OrdinalIgnoreCase);
+        if (isPreschoolAdmin && schoolIds.Count == 0)
+        {
+            throw new InvalidOperationException("At least one school is required for PreschoolAdmin users.");
+        }
+
+        if (schoolIds.Count > 0)
+        {
+            var schools = await _unitOfWork.Schools.FindAsync(x => schoolIds.Contains(x.Id), cancellationToken);
+            var foundSchoolIds = schools.Select(x => x.Id).ToHashSet();
+            if (schoolIds.Any(x => !foundSchoolIds.Contains(x)))
+            {
+                throw new InvalidOperationException("One or more provided schools are invalid.");
+            }
+        }
+
         var user = new User
         {
             FirstName = request.FirstName,
@@ -41,10 +66,23 @@ public class AuthService : IAuthService
         await _unitOfWork.Users.AddAsync(user, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var role = await _unitOfWork.Roles.GetByIdAsync(user.RoleId, cancellationToken);
         var roleName = role?.RoleName ?? "Parent";
 
-        var accessToken = _jwtTokenService.GenerateAccessToken(_mapper.Map<UserDto>(user), roleName);
+        foreach (var schoolId in schoolIds)
+        {
+            await _unitOfWork.UserSchools.AddAsync(new UserSchool
+            {
+                UserId = user.Id,
+                SchoolId = schoolId
+            }, cancellationToken);
+        }
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        var userDto = _mapper.Map<UserDto>(user);
+        userDto.SchoolIds = schoolIds;
+
+        var accessToken = _jwtTokenService.GenerateAccessToken(userDto, roleName, schoolIds);
         var refreshToken = _jwtTokenService.GenerateRefreshToken();
 
         await _unitOfWork.RefreshTokens.AddAsync(new RefreshToken
@@ -60,7 +98,7 @@ public class AuthService : IAuthService
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             ExpiresAt = DateTime.UtcNow.AddHours(1),
-            User = _mapper.Map<UserDto>(user)
+            User = userDto
         };
     }
 
@@ -84,7 +122,15 @@ public class AuthService : IAuthService
         var role = await _unitOfWork.Roles.GetByIdAsync(user.RoleId, cancellationToken);
         var roleName = role?.RoleName ?? "Parent";
 
-        var accessToken = _jwtTokenService.GenerateAccessToken(_mapper.Map<UserDto>(user), roleName);
+        var schoolIds = (await _unitOfWork.UserSchools.FindAsync(x => x.UserId == user.Id, cancellationToken))
+            .Select(x => x.SchoolId)
+            .Distinct()
+            .ToList();
+
+        var userDto = _mapper.Map<UserDto>(user);
+        userDto.SchoolIds = schoolIds;
+
+        var accessToken = _jwtTokenService.GenerateAccessToken(userDto, roleName, schoolIds);
         var refreshToken = _jwtTokenService.GenerateRefreshToken();
 
         await _unitOfWork.RefreshTokens.AddAsync(new RefreshToken
@@ -101,7 +147,7 @@ public class AuthService : IAuthService
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             ExpiresAt = DateTime.UtcNow.AddHours(1),
-            User = _mapper.Map<UserDto>(user)
+            User = userDto
         };
     }
 
@@ -125,7 +171,15 @@ public class AuthService : IAuthService
         var role = await _unitOfWork.Roles.GetByIdAsync(user.RoleId, cancellationToken);
         var roleName = role?.RoleName ?? "Parent";
 
-        var accessToken = _jwtTokenService.GenerateAccessToken(_mapper.Map<UserDto>(user), roleName);
+        var schoolIds = (await _unitOfWork.UserSchools.FindAsync(x => x.UserId == user.Id, cancellationToken))
+            .Select(x => x.SchoolId)
+            .Distinct()
+            .ToList();
+
+        var userDto = _mapper.Map<UserDto>(user);
+        userDto.SchoolIds = schoolIds;
+
+        var accessToken = _jwtTokenService.GenerateAccessToken(userDto, roleName, schoolIds);
         var newRefreshToken = _jwtTokenService.GenerateRefreshToken();
 
         await _unitOfWork.RefreshTokens.AddAsync(new RefreshToken
@@ -141,7 +195,7 @@ public class AuthService : IAuthService
             AccessToken = accessToken,
             RefreshToken = newRefreshToken,
             ExpiresAt = DateTime.UtcNow.AddHours(1),
-            User = _mapper.Map<UserDto>(user)
+            User = userDto
         };
     }
 

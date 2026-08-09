@@ -23,6 +23,18 @@ public class SchoolsController : BaseCrudController<SchoolDto, SchoolCreateDto, 
 }
 
 [Authorize(Roles = "SuperAdmin,PreschoolAdmin")]
+public class SchoolBranchesController : BaseCrudController<SchoolBranchDto, SchoolBranchCreateDto, SchoolBranchUpdateDto>
+{
+    public SchoolBranchesController(ICrudService<SchoolBranchDto, SchoolBranchCreateDto, SchoolBranchUpdateDto> service) : base(service) { }
+}
+
+[Authorize(Roles = "SuperAdmin,PreschoolAdmin")]
+public class AddressesController : BaseCrudController<AddressDto, AddressCreateDto, AddressUpdateDto>
+{
+    public AddressesController(ICrudService<AddressDto, AddressCreateDto, AddressUpdateDto> service) : base(service) { }
+}
+
+[Authorize(Roles = "SuperAdmin,PreschoolAdmin")]
 public class TeachersController : BaseCrudController<TeacherDto, TeacherCreateDto, TeacherUpdateDto>
 {
     public TeachersController(ICrudService<TeacherDto, TeacherCreateDto, TeacherUpdateDto> service) : base(service) { }

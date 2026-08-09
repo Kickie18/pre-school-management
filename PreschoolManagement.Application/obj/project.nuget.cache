@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ils183+bNkU=",
+  "dgSpecHash": "+XgAi5w/r5k=",
   "success": true,
-  "projectFilePath": "C:\\Users\\WXZ0FRS\\Desktop\\Project-Pre\\PreschoolManagement.Application\\PreschoolManagement.Application.csproj",
+  "projectFilePath": "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\PreschoolManagement.Application\\PreschoolManagement.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\WXZ0FRS\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\WXZ0FRS\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
@@ -15,9 +15,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "Package 'AutoMapper' 13.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x",
-      "projectPath": "C:\\Users\\WXZ0FRS\\Desktop\\Project-Pre\\PreschoolManagement.Application\\PreschoolManagement.Application.csproj",
+      "projectPath": "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\PreschoolManagement.Application\\PreschoolManagement.Application.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\WXZ0FRS\\Desktop\\Project-Pre\\PreschoolManagement.Application\\PreschoolManagement.Application.csproj",
+      "filePath": "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\PreschoolManagement.Application\\PreschoolManagement.Application.csproj",
       "libraryId": "AutoMapper",
       "targetGraphs": [
         "net8.0"

@@ -23,6 +23,7 @@ public class User : BaseEntity
 
     public Role? Role { get; set; }
     public Parent? Parent { get; set; }
+    public ICollection<UserSchool> UserSchools { get; set; } = new List<UserSchool>();
     public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 }
@@ -30,12 +31,56 @@ public class User : BaseEntity
 public class School : BaseEntity
 {
     public string SchoolName { get; set; } = string.Empty;
-    public string Address { get; set; } = string.Empty;
+    public Guid? AddressId { get; set; }
     public string ContactNumber { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string? Logo { get; set; }
 
+    public Address? Address { get; set; }
+    public ICollection<SchoolBranch> Branches { get; set; } = new List<SchoolBranch>();
     public ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
+    public ICollection<UserSchool> UserSchools { get; set; } = new List<UserSchool>();
+}
+
+public class UserSchool : BaseEntity
+{
+    public Guid UserId { get; set; }
+    public Guid SchoolId { get; set; }
+
+    public User? User { get; set; }
+    public School? School { get; set; }
+}
+public class SchoolBranch : BaseEntity
+{
+    public Guid SchoolId { get; set; }
+    public Guid? AddressId { get; set; }
+    public string BranchName { get; set; } = string.Empty;
+    public string BranchCode { get; set; } = string.Empty;
+    public string? ContactNumber { get; set; }
+    public string? Email { get; set; }
+
+    public School? School { get; set; }
+    public Address? Address { get; set; }
+    public ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
+    public ICollection<Student> Students { get; set; } = new List<Student>();
+    public ICollection<ClassRoom> ClassRooms { get; set; } = new List<ClassRoom>();
+}
+
+public class Address : BaseEntity
+{
+    public string AddressLine1 { get; set; } = string.Empty;
+    public string? AddressLine2 { get; set; }
+    public string City { get; set; } = string.Empty;
+    public string State { get; set; } = string.Empty;
+    public string PostalCode { get; set; } = string.Empty;
+    public string Country { get; set; } = string.Empty;
+    public decimal? Latitude { get; set; }
+    public decimal? Longitude { get; set; }
+
+    public ICollection<School> Schools { get; set; } = new List<School>();
+    public ICollection<SchoolBranch> Branches { get; set; } = new List<SchoolBranch>();
+    public ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
+    public ICollection<Student> Students { get; set; } = new List<Student>();
 }
 
 public class Teacher : BaseEntity
@@ -52,8 +97,12 @@ public class Teacher : BaseEntity
     public DateTime JoiningDate { get; set; }
     public string? ProfileImage { get; set; }
     public Guid SchoolId { get; set; }
+    public Guid? BranchId { get; set; }
+    public Guid? AddressId { get; set; }
 
     public School? School { get; set; }
+    public SchoolBranch? Branch { get; set; }
+    public Address? Address { get; set; }
     public ICollection<ClassRoom> Classes { get; set; } = new List<ClassRoom>();
     public ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();
 }
@@ -80,15 +129,18 @@ public class Student : BaseEntity
     public Gender Gender { get; set; }
     public DateTime DOB { get; set; }
     public string BloodGroup { get; set; } = string.Empty;
-    public string Address { get; set; } = string.Empty;
+    public Guid? AddressId { get; set; }
     public DateTime JoiningDate { get; set; }
     public Guid ClassId { get; set; }
     public Guid ParentId { get; set; }
+    public Guid? BranchId { get; set; }
     public string? ProfilePicture { get; set; }
     public StudentStatus Status { get; set; } = StudentStatus.Active;
 
     public ClassRoom? ClassRoom { get; set; }
     public Parent? Parent { get; set; }
+    public SchoolBranch? Branch { get; set; }
+    public Address? Address { get; set; }
     public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
     public ICollection<StudentCheckInOut> CheckInsOuts { get; set; } = new List<StudentCheckInOut>();
     public ICollection<Payment> Payments { get; set; } = new List<Payment>();
@@ -100,8 +152,10 @@ public class ClassRoom : BaseEntity
     public string AgeGroup { get; set; } = string.Empty;
     public int Capacity { get; set; }
     public Guid? TeacherId { get; set; }
+    public Guid? BranchId { get; set; }
 
     public Teacher? Teacher { get; set; }
+    public SchoolBranch? Branch { get; set; }
     public ICollection<Student> Students { get; set; } = new List<Student>();
     public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
     public ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();

@@ -14,6 +14,9 @@ public class UnitOfWork : IUnitOfWork
         Roles = new GenericRepository<Role>(_dbContext);
         Users = new GenericRepository<User>(_dbContext);
         Schools = new GenericRepository<School>(_dbContext);
+        SchoolBranches = new GenericRepository<SchoolBranch>(_dbContext);
+        Addresses = new GenericRepository<Address>(_dbContext);
+        UserSchools = new GenericRepository<UserSchool>(_dbContext);
         Teachers = new GenericRepository<Teacher>(_dbContext);
         Parents = new GenericRepository<Parent>(_dbContext);
         Students = new GenericRepository<Student>(_dbContext);
@@ -32,6 +35,9 @@ public class UnitOfWork : IUnitOfWork
     public IGenericRepository<Role> Roles { get; }
     public IGenericRepository<User> Users { get; }
     public IGenericRepository<School> Schools { get; }
+    public IGenericRepository<SchoolBranch> SchoolBranches { get; }
+    public IGenericRepository<Address> Addresses { get; }
+    public IGenericRepository<UserSchool> UserSchools { get; }
     public IGenericRepository<Teacher> Teachers { get; }
     public IGenericRepository<Parent> Parents { get; }
     public IGenericRepository<Student> Students { get; }
