@@ -14,9 +14,6 @@ public class UnitOfWork : IUnitOfWork
         Roles = new GenericRepository<Role>(_dbContext);
         Users = new GenericRepository<User>(_dbContext);
         Schools = new GenericRepository<School>(_dbContext);
-        SchoolBranches = new GenericRepository<SchoolBranch>(_dbContext);
-        Addresses = new GenericRepository<Address>(_dbContext);
-        UserSchools = new GenericRepository<UserSchool>(_dbContext);
         Teachers = new GenericRepository<Teacher>(_dbContext);
         Parents = new GenericRepository<Parent>(_dbContext);
         Students = new GenericRepository<Student>(_dbContext);
@@ -30,14 +27,12 @@ public class UnitOfWork : IUnitOfWork
         Notices = new GenericRepository<Notice>(_dbContext);
         Notifications = new GenericRepository<Notification>(_dbContext);
         RefreshTokens = new GenericRepository<RefreshToken>(_dbContext);
+        Addresses = new GenericRepository<Address>(_dbContext);
     }
 
     public IGenericRepository<Role> Roles { get; }
     public IGenericRepository<User> Users { get; }
     public IGenericRepository<School> Schools { get; }
-    public IGenericRepository<SchoolBranch> SchoolBranches { get; }
-    public IGenericRepository<Address> Addresses { get; }
-    public IGenericRepository<UserSchool> UserSchools { get; }
     public IGenericRepository<Teacher> Teachers { get; }
     public IGenericRepository<Parent> Parents { get; }
     public IGenericRepository<Student> Students { get; }
@@ -51,6 +46,7 @@ public class UnitOfWork : IUnitOfWork
     public IGenericRepository<Notice> Notices { get; }
     public IGenericRepository<Notification> Notifications { get; }
     public IGenericRepository<RefreshToken> RefreshTokens { get; }
+    public IGenericRepository<Address> Addresses { get; }
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

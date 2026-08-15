@@ -18,7 +18,7 @@ public class JwtTokenService : IJwtTokenService
         _configuration = configuration;
     }
 
-    public string GenerateAccessToken(UserDto user, string roleName, IReadOnlyCollection<Guid>? schoolIds = null)
+    public string GenerateAccessToken(UserDto user, string roleName)
     {
         var key = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key not configured.");
         var issuer = _configuration["Jwt:Issuer"];
@@ -33,14 +33,6 @@ public class JwtTokenService : IJwtTokenService
             new(ClaimTypes.Role, roleName),
             new("userId", user.Id.ToString())
         };
-
-        if (schoolIds is not null)
-        {
-            foreach (var schoolId in schoolIds)
-            {
-                claims.Add(new Claim("schoolId", schoolId.ToString()));
-            }
-        }
 
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),

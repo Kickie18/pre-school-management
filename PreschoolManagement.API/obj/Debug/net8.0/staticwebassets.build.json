@@ -1,1 +1,11 @@
-{"Version":1,"Hash":"JYdgh2Fh4BtqVa07wgzjlvKi5RF0Sy92KroZ+u6E49g=","Source":"PreschoolManagement.API","BasePath":"/","Mode":"Root","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
+{
+  "Version": 1,
+  "Hash": "qCVBk6kiiVKDHkeWF6YIeTC4tm48aOnI3bzbKj8YYBY=",
+  "Source": "PreschoolManagement.API",
+  "BasePath": "_content/PreschoolManagement.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

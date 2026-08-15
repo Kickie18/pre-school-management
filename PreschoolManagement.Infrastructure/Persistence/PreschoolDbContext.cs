@@ -14,9 +14,6 @@ public class PreschoolDbContext : DbContext
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<User> Users => Set<User>();
     public DbSet<School> Schools => Set<School>();
-    public DbSet<SchoolBranch> SchoolBranches => Set<SchoolBranch>();
-    public DbSet<Address> Addresses => Set<Address>();
-    public DbSet<UserSchool> UserSchools => Set<UserSchool>();
     public DbSet<Teacher> Teachers => Set<Teacher>();
     public DbSet<Parent> Parents => Set<Parent>();
     public DbSet<Student> Students => Set<Student>();
@@ -30,6 +27,7 @@ public class PreschoolDbContext : DbContext
     public DbSet<Notice> Notices => Set<Notice>();
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<Address> Addresses => Set<Address>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,40 +54,9 @@ public class PreschoolDbContext : DbContext
         modelBuilder.Entity<School>(entity =>
         {
             entity.Property(x => x.SchoolName).IsRequired().HasMaxLength(200);
+            entity.HasOne(x => x.Address).WithMany().HasForeignKey(x => x.AddressId).OnDelete(DeleteBehavior.Restrict);
             entity.Property(x => x.ContactNumber).HasMaxLength(20);
             entity.Property(x => x.Email).HasMaxLength(256);
-            entity.HasOne(x => x.Address).WithMany(x => x.Schools).HasForeignKey(x => x.AddressId).OnDelete(DeleteBehavior.SetNull);
-        });
-
-        modelBuilder.Entity<SchoolBranch>(entity =>
-        {
-            entity.Property(x => x.BranchName).IsRequired().HasMaxLength(200);
-            entity.Property(x => x.BranchCode).IsRequired().HasMaxLength(50);
-            entity.Property(x => x.ContactNumber).HasMaxLength(20);
-            entity.Property(x => x.Email).HasMaxLength(256);
-            entity.HasIndex(x => x.BranchCode).IsUnique();
-            entity.HasIndex(x => new { x.SchoolId, x.BranchName }).IsUnique();
-            entity.HasOne(x => x.School).WithMany(x => x.Branches).HasForeignKey(x => x.SchoolId).OnDelete(DeleteBehavior.Restrict);
-            entity.HasOne(x => x.Address).WithMany(x => x.Branches).HasForeignKey(x => x.AddressId).OnDelete(DeleteBehavior.SetNull);
-        });
-
-        modelBuilder.Entity<Address>(entity =>
-        {
-            entity.Property(x => x.AddressLine1).IsRequired().HasMaxLength(300);
-            entity.Property(x => x.AddressLine2).HasMaxLength(300);
-            entity.Property(x => x.City).IsRequired().HasMaxLength(100);
-            entity.Property(x => x.State).IsRequired().HasMaxLength(100);
-            entity.Property(x => x.PostalCode).IsRequired().HasMaxLength(20);
-            entity.Property(x => x.Country).IsRequired().HasMaxLength(100);
-            entity.Property(x => x.Latitude).HasPrecision(9, 6);
-            entity.Property(x => x.Longitude).HasPrecision(9, 6);
-        });
-
-        modelBuilder.Entity<UserSchool>(entity =>
-        {
-            entity.HasIndex(x => new { x.UserId, x.SchoolId }).IsUnique();
-            entity.HasOne(x => x.User).WithMany(x => x.UserSchools).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
-            entity.HasOne(x => x.School).WithMany(x => x.UserSchools).HasForeignKey(x => x.SchoolId).OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<Teacher>(entity =>
@@ -99,9 +66,9 @@ public class PreschoolDbContext : DbContext
             entity.Property(x => x.LastName).IsRequired().HasMaxLength(100);
             entity.Property(x => x.Email).IsRequired().HasMaxLength(256);
             entity.HasIndex(x => x.EmployeeCode).IsUnique();
+            entity.HasOne(x => x.Address).WithMany().HasForeignKey(x => x.AddressId).OnDelete(DeleteBehavior.Restrict);
             entity.HasOne(x => x.School).WithMany(x => x.Teachers).HasForeignKey(x => x.SchoolId).OnDelete(DeleteBehavior.Restrict);
-            entity.HasOne(x => x.Branch).WithMany(x => x.Teachers).HasForeignKey(x => x.BranchId).OnDelete(DeleteBehavior.SetNull);
-            entity.HasOne(x => x.Address).WithMany(x => x.Teachers).HasForeignKey(x => x.AddressId).OnDelete(DeleteBehavior.SetNull);
+            entity.HasOne(x => x.User).WithOne().HasForeignKey<Teacher>(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<Parent>(entity =>
@@ -113,6 +80,7 @@ public class PreschoolDbContext : DbContext
             entity.Property(x => x.Address).IsRequired().HasMaxLength(300);
             entity.HasIndex(x => x.Email).IsUnique();
             entity.HasOne(x => x.User).WithOne(x => x.Parent).HasForeignKey<Parent>(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(x => x.School).WithMany().HasForeignKey(x => x.SchoolId).OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<ClassRoom>(entity =>
@@ -120,21 +88,32 @@ public class PreschoolDbContext : DbContext
             entity.Property(x => x.ClassName).IsRequired().HasMaxLength(100);
             entity.Property(x => x.AgeGroup).IsRequired().HasMaxLength(50);
             entity.HasIndex(x => x.ClassName).IsUnique();
+            entity.HasOne(x => x.School).WithMany().HasForeignKey(x => x.SchoolId).OnDelete(DeleteBehavior.Restrict);
             entity.HasOne(x => x.Teacher).WithMany(x => x.Classes).HasForeignKey(x => x.TeacherId).OnDelete(DeleteBehavior.SetNull);
-            entity.HasOne(x => x.Branch).WithMany(x => x.ClassRooms).HasForeignKey(x => x.BranchId).OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<Student>(entity =>
         {
             entity.Property(x => x.AdmissionNumber).IsRequired().HasMaxLength(50);
+            entity.Property(x => x.RollNumber).HasMaxLength(30);
             entity.Property(x => x.FirstName).IsRequired().HasMaxLength(100);
             entity.Property(x => x.LastName).IsRequired().HasMaxLength(100);
             entity.Property(x => x.BloodGroup).HasMaxLength(10);
+            entity.HasOne(x => x.Address).WithMany().HasForeignKey(x => x.AddressId).OnDelete(DeleteBehavior.Restrict);
             entity.HasIndex(x => x.AdmissionNumber).IsUnique();
             entity.HasOne(x => x.Parent).WithMany(x => x.Students).HasForeignKey(x => x.ParentId).OnDelete(DeleteBehavior.Restrict);
             entity.HasOne(x => x.ClassRoom).WithMany(x => x.Students).HasForeignKey(x => x.ClassId).OnDelete(DeleteBehavior.Restrict);
-            entity.HasOne(x => x.Branch).WithMany(x => x.Students).HasForeignKey(x => x.BranchId).OnDelete(DeleteBehavior.SetNull);
-            entity.HasOne(x => x.Address).WithMany(x => x.Students).HasForeignKey(x => x.AddressId).OnDelete(DeleteBehavior.SetNull);
+            entity.HasOne(x => x.School).WithMany().HasForeignKey(x => x.SchoolId).OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<Address>(entity =>
+        {
+            entity.Property(x => x.AddressLine1).IsRequired().HasMaxLength(200);
+            entity.Property(x => x.AddressLine2).HasMaxLength(200);
+            entity.Property(x => x.City).IsRequired().HasMaxLength(100);
+            entity.Property(x => x.State).IsRequired().HasMaxLength(100);
+            entity.Property(x => x.PostalCode).IsRequired().HasMaxLength(20);
+            entity.Property(x => x.Country).IsRequired().HasMaxLength(100);
         });
 
         modelBuilder.Entity<Attendance>(entity =>

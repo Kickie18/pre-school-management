@@ -20,12 +20,24 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _dbSet.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        var query = _dbSet.AsQueryable();
+        if (typeof(IAddressOwner).IsAssignableFrom(typeof(TEntity)))
+        {
+            query = query.Include(nameof(IAddressOwner.Address));
+        }
+
+        return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task<PagedResult<TEntity>> GetPagedAsync(QueryParameters query, CancellationToken cancellationToken = default)
     {
-        var loadedItems = await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
+        var dbQuery = _dbSet.AsQueryable();
+        if (typeof(IAddressOwner).IsAssignableFrom(typeof(TEntity)))
+        {
+            dbQuery = dbQuery.Include(nameof(IAddressOwner.Address));
+        }
+
+        var loadedItems = await dbQuery.AsNoTracking().ToListAsync(cancellationToken);
         var entityQuery = loadedItems.AsEnumerable();
 
         if (!string.IsNullOrWhiteSpace(query.Search))

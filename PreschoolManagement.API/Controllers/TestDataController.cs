@@ -46,60 +46,25 @@ public class TestDataController : ControllerBase
     {
         var roleLookup = await EnsureRolesAsync(cancellationToken);
 
-        var schoolAddress = await _dbContext.Addresses.FirstOrDefaultAsync(
-            x => x.AddressLine1 == "21 Sunshine Street" && x.City == "Springfield", cancellationToken);
-        if (schoolAddress is null)
-        {
-            schoolAddress = new Address
-            {
-                AddressLine1 = "21 Sunshine Street",
-                City = "Springfield",
-                State = "CA",
-                PostalCode = "94105",
-                Country = "USA",
-                CreatedBy = "qa-seed"
-            };
-            _dbContext.Addresses.Add(schoolAddress);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-
         var school = await _dbContext.Schools.FirstOrDefaultAsync(x => x.SchoolName == "Happy Kids Preschool", cancellationToken);
         if (school is null)
         {
             school = new School
             {
                 SchoolName = "Happy Kids Preschool",
-                AddressId = schoolAddress.Id,
+                Address = new Address
+                {
+                    AddressLine1 = "21 Sunshine Street",
+                    City = "Springfield",
+                    State = "Demo State",
+                    PostalCode = "00000",
+                    Country = "Demo Country"
+                },
                 ContactNumber = "1112223333",
                 Email = "info@happykids.local",
                 CreatedBy = "qa-seed"
             };
             _dbContext.Schools.Add(school);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        if (school.AddressId is null)
-        {
-            school.AddressId = schoolAddress.Id;
-            _dbContext.Schools.Update(school);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        var branch = await _dbContext.SchoolBranches.FirstOrDefaultAsync(
-            x => x.SchoolId == school.Id && x.BranchCode == "HKP-MAIN", cancellationToken);
-        if (branch is null)
-        {
-            branch = new SchoolBranch
-            {
-                SchoolId = school.Id,
-                AddressId = schoolAddress.Id,
-                BranchName = "Happy Kids - Main Branch",
-                BranchCode = "HKP-MAIN",
-                ContactNumber = "1112223333",
-                Email = "main@happykids.local",
-                CreatedBy = "qa-seed"
-            };
-            _dbContext.SchoolBranches.Add(branch);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
@@ -110,18 +75,6 @@ public class TestDataController : ControllerBase
         var teacher = await _dbContext.Teachers.FirstOrDefaultAsync(x => x.Email == teacherUser.Email, cancellationToken);
         if (teacher is null)
         {
-            var teacherAddress = new Address
-            {
-                AddressLine1 = "89 Maple Drive",
-                City = "Springfield",
-                State = "CA",
-                PostalCode = "94107",
-                Country = "USA",
-                CreatedBy = "qa-seed"
-            };
-            _dbContext.Addresses.Add(teacherAddress);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-
             teacher = new Teacher
             {
                 EmployeeCode = "TCH-001",
@@ -135,8 +88,15 @@ public class TestDataController : ControllerBase
                 Email = teacherUser.Email,
                 JoiningDate = DateTime.UtcNow.AddYears(-2),
                 SchoolId = school.Id,
-                BranchId = branch.Id,
-                AddressId = teacherAddress.Id,
+                UserId = teacherUser.Id,
+                Address = new Address
+                {
+                    AddressLine1 = "21 Sunshine Street",
+                    City = "Springfield",
+                    State = "Demo State",
+                    PostalCode = "00000",
+                    Country = "Demo Country"
+                },
                 CreatedBy = "qa-seed"
             };
             _dbContext.Teachers.Add(teacher);
@@ -151,8 +111,8 @@ public class TestDataController : ControllerBase
                 ClassName = "Nursery A",
                 AgeGroup = "3-4",
                 Capacity = 25,
+                SchoolId = school.Id,
                 TeacherId = teacher.Id,
-                BranchId = branch.Id,
                 CreatedBy = "qa-seed"
             };
             _dbContext.ClassRooms.Add(classRoom);
@@ -171,6 +131,7 @@ public class TestDataController : ControllerBase
                 Address = "34 Blossom Avenue",
                 Occupation = "Engineer",
                 UserId = parentUser.Id,
+                SchoolId = school.Id,
                 CreatedBy = "qa-seed"
             };
             _dbContext.Parents.Add(parent);
@@ -180,18 +141,6 @@ public class TestDataController : ControllerBase
         var student = await _dbContext.Students.FirstOrDefaultAsync(x => x.AdmissionNumber == "ADM-0001", cancellationToken);
         if (student is null)
         {
-            var studentAddress = new Address
-            {
-                AddressLine1 = "34 Blossom Avenue",
-                City = "Springfield",
-                State = "CA",
-                PostalCode = "94108",
-                Country = "USA",
-                CreatedBy = "qa-seed"
-            };
-            _dbContext.Addresses.Add(studentAddress);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-
             student = new Student
             {
                 AdmissionNumber = "ADM-0001",
@@ -200,11 +149,18 @@ public class TestDataController : ControllerBase
                 Gender = Gender.Male,
                 DOB = new DateTime(2021, 4, 10),
                 BloodGroup = "O+",
-                AddressId = studentAddress.Id,
+                Address = new Address
+                {
+                    AddressLine1 = "34 Blossom Avenue",
+                    City = "Springfield",
+                    State = "Demo State",
+                    PostalCode = "00000",
+                    Country = "Demo Country"
+                },
                 JoiningDate = DateTime.UtcNow.AddMonths(-6),
                 ClassId = classRoom.Id,
                 ParentId = parent.Id,
-                BranchId = branch.Id,
+                SchoolId = school.Id,
                 Status = StudentStatus.Active,
                 CreatedBy = "qa-seed"
             };

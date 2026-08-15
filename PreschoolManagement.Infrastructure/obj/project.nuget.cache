@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "lI0fCfpeBF4=",
-  "success": true,
+  "dgSpecHash": "52ZaNylWL4s=",
+  "success": false,
   "projectFilePath": "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\PreschoolManagement.Infrastructure\\PreschoolManagement.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\WXZ0FRS\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
@@ -55,7 +55,31 @@
     "C:\\Users\\WXZ0FRS\\.nuget\\packages\\system.text.encodings.web\\6.0.0\\system.text.encodings.web.6.0.0.nupkg.sha512",
     "C:\\Users\\WXZ0FRS\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512",
     "C:\\Users\\WXZ0FRS\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "C:\\Users\\WXZ0FRS\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
+    "C:\\Users\\WXZ0FRS\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
+    "C:\\Users\\WXZ0FRS\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.30\\microsoft.netcore.app.ref.8.0.30.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "Unable to resolve 'Microsoft.WindowsDesktop.App.Ref (= 8.0.30)' for 'net8.0'. PackageSourceMapping is enabled, the following source(s) were not considered: Microsoft Visual Studio Offline Packages, NugetIndex, SGS_SCSDigitalGLD_nuget_virtual.",
+      "projectPath": "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\PreschoolManagement.Infrastructure\\PreschoolManagement.Infrastructure.csproj",
+      "filePath": "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\PreschoolManagement.Infrastructure\\PreschoolManagement.Infrastructure.csproj",
+      "libraryId": "Microsoft.WindowsDesktop.App.Ref",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "Unable to resolve 'Microsoft.AspNetCore.App.Ref (= 8.0.30)' for 'net8.0'. PackageSourceMapping is enabled, the following source(s) were not considered: Microsoft Visual Studio Offline Packages, NugetIndex, SGS_SCSDigitalGLD_nuget_virtual.",
+      "projectPath": "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\PreschoolManagement.Infrastructure\\PreschoolManagement.Infrastructure.csproj",
+      "filePath": "C:\\Users\\WXZ0FRS\\Desktop\\Git-pre\\pre-school-management\\PreschoolManagement.Infrastructure\\PreschoolManagement.Infrastructure.csproj",
+      "libraryId": "Microsoft.AspNetCore.App.Ref",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

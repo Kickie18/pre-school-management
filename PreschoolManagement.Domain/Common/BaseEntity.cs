@@ -1,3 +1,5 @@
+using PreschoolManagement.Domain.Entities;
+
 namespace PreschoolManagement.Domain.Common;
 
 public abstract class BaseEntity
@@ -8,4 +10,10 @@ public abstract class BaseEntity
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     public string? UpdatedBy { get; set; }
     public DateTime? UpdatedDate { get; set; }
+}
+
+public interface IAddressOwner
+{
+    Guid AddressId { get; set; }
+    Address? Address { get; set; }
 }

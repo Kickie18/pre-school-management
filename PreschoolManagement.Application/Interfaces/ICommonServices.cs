@@ -24,7 +24,7 @@ public interface IAuthService
 
 public interface IJwtTokenService
 {
-    string GenerateAccessToken(UserDto user, string roleName, IReadOnlyCollection<Guid>? schoolIds = null);
+    string GenerateAccessToken(UserDto user, string roleName);
     string GenerateRefreshToken();
 }
 

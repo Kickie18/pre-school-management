@@ -7,9 +7,6 @@ public interface IUnitOfWork
     IGenericRepository<Role> Roles { get; }
     IGenericRepository<User> Users { get; }
     IGenericRepository<School> Schools { get; }
-    IGenericRepository<SchoolBranch> SchoolBranches { get; }
-    IGenericRepository<Address> Addresses { get; }
-    IGenericRepository<UserSchool> UserSchools { get; }
     IGenericRepository<Teacher> Teachers { get; }
     IGenericRepository<Parent> Parents { get; }
     IGenericRepository<Student> Students { get; }
@@ -23,6 +20,7 @@ public interface IUnitOfWork
     IGenericRepository<Notice> Notices { get; }
     IGenericRepository<Notification> Notifications { get; }
     IGenericRepository<RefreshToken> RefreshTokens { get; }
+    IGenericRepository<Address> Addresses { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

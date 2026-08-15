@@ -8,6 +8,8 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        CreateMap<Address, AddressDto>();
+        CreateMap<AddressCreateDto, Address>();
         CreateMap<Role, RoleDto>().ReverseMap();
         CreateMap<RoleCreateDto, Role>();
         CreateMap<RoleUpdateDto, Role>();
@@ -17,28 +19,20 @@ public class MappingProfile : Profile
         CreateMap<UserUpdateDto, User>();
 
         CreateMap<School, SchoolDto>().ReverseMap();
-        CreateMap<SchoolCreateDto, School>();
-        CreateMap<SchoolUpdateDto, School>();
-
-        CreateMap<SchoolBranch, SchoolBranchDto>().ReverseMap();
-        CreateMap<SchoolBranchCreateDto, SchoolBranch>();
-        CreateMap<SchoolBranchUpdateDto, SchoolBranch>();
-
-        CreateMap<Address, AddressDto>().ReverseMap();
-        CreateMap<AddressCreateDto, Address>();
-        CreateMap<AddressUpdateDto, Address>();
+        CreateMap<SchoolCreateDto, School>().ForMember(x => x.Address, options => options.Ignore());
+        CreateMap<SchoolUpdateDto, School>().ForMember(x => x.Address, options => options.Ignore());
 
         CreateMap<Teacher, TeacherDto>().ReverseMap();
-        CreateMap<TeacherCreateDto, Teacher>();
-        CreateMap<TeacherUpdateDto, Teacher>();
+        CreateMap<TeacherCreateDto, Teacher>().ForMember(x => x.Address, options => options.Ignore());
+        CreateMap<TeacherUpdateDto, Teacher>().ForMember(x => x.Address, options => options.Ignore());
 
         CreateMap<Parent, ParentDto>().ReverseMap();
         CreateMap<ParentCreateDto, Parent>();
         CreateMap<ParentUpdateDto, Parent>();
 
         CreateMap<Student, StudentDto>().ReverseMap();
-        CreateMap<StudentCreateDto, Student>();
-        CreateMap<StudentUpdateDto, Student>();
+        CreateMap<StudentCreateDto, Student>().ForMember(x => x.Address, options => options.Ignore());
+        CreateMap<StudentUpdateDto, Student>().ForMember(x => x.Address, options => options.Ignore());
 
         CreateMap<ClassRoom, ClassRoomDto>().ReverseMap();
         CreateMap<ClassRoomCreateDto, ClassRoom>();

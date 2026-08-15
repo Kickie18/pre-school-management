@@ -1,7 +1,7 @@
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using PreschoolManagement.Application.DTOs;
 using PreschoolManagement.Application.Interfaces;
 using PreschoolManagement.Domain.Entities;
@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection")
-            ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is missing.");
+            ?? throw new InvalidOperationException("ConnectionStrings:DefaultConnection is missing in configuration.");
 
         services.AddDbContext<PreschoolDbContext>(options =>
             options.UseSqlServer(connectionString));
@@ -41,14 +41,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICrudService<SchoolDto, SchoolCreateDto, SchoolUpdateDto>>(sp =>
             new CrudService<School, SchoolDto, SchoolCreateDto, SchoolUpdateDto>(
                 sp.GetRequiredService<IUnitOfWork>(), sp.GetRequiredService<IMapper>(), u => u.Schools));
-
-        services.AddScoped<ICrudService<SchoolBranchDto, SchoolBranchCreateDto, SchoolBranchUpdateDto>>(sp =>
-            new CrudService<SchoolBranch, SchoolBranchDto, SchoolBranchCreateDto, SchoolBranchUpdateDto>(
-                sp.GetRequiredService<IUnitOfWork>(), sp.GetRequiredService<IMapper>(), u => u.SchoolBranches));
-
-        services.AddScoped<ICrudService<AddressDto, AddressCreateDto, AddressUpdateDto>>(sp =>
-            new CrudService<Address, AddressDto, AddressCreateDto, AddressUpdateDto>(
-                sp.GetRequiredService<IUnitOfWork>(), sp.GetRequiredService<IMapper>(), u => u.Addresses));
 
         services.AddScoped<ICrudService<TeacherDto, TeacherCreateDto, TeacherUpdateDto>>(sp =>
             new CrudService<Teacher, TeacherDto, TeacherCreateDto, TeacherUpdateDto>(

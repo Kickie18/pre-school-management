@@ -1,4 +1,5 @@
 using PreschoolManagement.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace PreschoolManagement.Application.DTOs;
 
@@ -10,6 +11,31 @@ public abstract class BaseDto
     public DateTime CreatedDate { get; set; }
     public string? UpdatedBy { get; set; }
     public DateTime? UpdatedDate { get; set; }
+}
+
+public class AddressDto : BaseDto
+{
+    public string AddressLine1 { get; set; } = string.Empty;
+    public string? AddressLine2 { get; set; }
+    public string City { get; set; } = string.Empty;
+    public string State { get; set; } = string.Empty;
+    public string PostalCode { get; set; } = string.Empty;
+    public string Country { get; set; } = string.Empty;
+}
+
+public class AddressCreateDto
+{
+    [Required]
+    public string AddressLine1 { get; set; } = string.Empty;
+    public string? AddressLine2 { get; set; }
+    [Required]
+    public string City { get; set; } = string.Empty;
+    [Required]
+    public string State { get; set; } = string.Empty;
+    [Required]
+    public string PostalCode { get; set; } = string.Empty;
+    [Required]
+    public string Country { get; set; } = string.Empty;
 }
 
 public class RoleDto : BaseDto
@@ -33,7 +59,6 @@ public class UserDto : BaseDto
     public string Email { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public Guid RoleId { get; set; }
-    public List<Guid> SchoolIds { get; set; } = new();
     public string? ProfilePicture { get; set; }
     public bool IsActive { get; set; }
     public DateTime? LastLoginDate { get; set; }
@@ -47,7 +72,6 @@ public class UserCreateDto
     public string PhoneNumber { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public Guid RoleId { get; set; }
-    public List<Guid> SchoolIds { get; set; } = new();
     public string? ProfilePicture { get; set; }
 }
 
@@ -56,7 +80,6 @@ public class UserUpdateDto
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
-    public List<Guid> SchoolIds { get; set; } = new();
     public string? ProfilePicture { get; set; }
     public bool IsActive { get; set; }
 }
@@ -64,7 +87,8 @@ public class UserUpdateDto
 public class SchoolDto : BaseDto
 {
     public string SchoolName { get; set; } = string.Empty;
-    public Guid? AddressId { get; set; }
+    public Guid AddressId { get; set; }
+    public AddressDto? Address { get; set; }
     public string ContactNumber { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string? Logo { get; set; }
@@ -73,65 +97,14 @@ public class SchoolDto : BaseDto
 public class SchoolCreateDto
 {
     public string SchoolName { get; set; } = string.Empty;
-    public Guid? AddressId { get; set; }
+    [Required]
+    public AddressCreateDto Address { get; set; } = null!;
     public string ContactNumber { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string? Logo { get; set; }
 }
 
 public class SchoolUpdateDto : SchoolCreateDto
-{
-}
-
-public class SchoolBranchDto : BaseDto
-{
-    public Guid SchoolId { get; set; }
-    public Guid? AddressId { get; set; }
-    public string BranchName { get; set; } = string.Empty;
-    public string BranchCode { get; set; } = string.Empty;
-    public string? ContactNumber { get; set; }
-    public string? Email { get; set; }
-}
-
-public class SchoolBranchCreateDto
-{
-    public Guid SchoolId { get; set; }
-    public Guid? AddressId { get; set; }
-    public string BranchName { get; set; } = string.Empty;
-    public string BranchCode { get; set; } = string.Empty;
-    public string? ContactNumber { get; set; }
-    public string? Email { get; set; }
-}
-
-public class SchoolBranchUpdateDto : SchoolBranchCreateDto
-{
-}
-
-public class AddressDto : BaseDto
-{
-    public string AddressLine1 { get; set; } = string.Empty;
-    public string? AddressLine2 { get; set; }
-    public string City { get; set; } = string.Empty;
-    public string State { get; set; } = string.Empty;
-    public string PostalCode { get; set; } = string.Empty;
-    public string Country { get; set; } = string.Empty;
-    public decimal? Latitude { get; set; }
-    public decimal? Longitude { get; set; }
-}
-
-public class AddressCreateDto
-{
-    public string AddressLine1 { get; set; } = string.Empty;
-    public string? AddressLine2 { get; set; }
-    public string City { get; set; } = string.Empty;
-    public string State { get; set; } = string.Empty;
-    public string PostalCode { get; set; } = string.Empty;
-    public string Country { get; set; } = string.Empty;
-    public decimal? Latitude { get; set; }
-    public decimal? Longitude { get; set; }
-}
-
-public class AddressUpdateDto : AddressCreateDto
 {
 }
 
@@ -149,8 +122,9 @@ public class TeacherDto : BaseDto
     public DateTime JoiningDate { get; set; }
     public string? ProfileImage { get; set; }
     public Guid SchoolId { get; set; }
-    public Guid? BranchId { get; set; }
-    public Guid? AddressId { get; set; }
+    public Guid AddressId { get; set; }
+    public Guid UserId { get; set; }
+    public AddressDto? Address { get; set; }
 }
 
 public class TeacherCreateDto
@@ -167,8 +141,10 @@ public class TeacherCreateDto
     public DateTime JoiningDate { get; set; }
     public string? ProfileImage { get; set; }
     public Guid SchoolId { get; set; }
-    public Guid? BranchId { get; set; }
-    public Guid? AddressId { get; set; }
+    [Required]
+    public Guid UserId { get; set; }
+    [Required]
+    public AddressCreateDto Address { get; set; } = null!;
 }
 
 public class TeacherUpdateDto : TeacherCreateDto
@@ -184,6 +160,7 @@ public class ParentDto : BaseDto
     public string Address { get; set; } = string.Empty;
     public string Occupation { get; set; } = string.Empty;
     public Guid UserId { get; set; }
+    public Guid SchoolId { get; set; }
 }
 
 public class ParentCreateDto
@@ -194,7 +171,10 @@ public class ParentCreateDto
     public string PhoneNumber { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public string Occupation { get; set; } = string.Empty;
+    [Required]
     public Guid UserId { get; set; }
+    [Required]
+    public Guid SchoolId { get; set; }
 }
 
 public class ParentUpdateDto : ParentCreateDto
@@ -204,16 +184,18 @@ public class ParentUpdateDto : ParentCreateDto
 public class StudentDto : BaseDto
 {
     public string AdmissionNumber { get; set; } = string.Empty;
+    public string? RollNumber { get; set; }
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public Gender Gender { get; set; }
     public DateTime DOB { get; set; }
     public string BloodGroup { get; set; } = string.Empty;
-    public Guid? AddressId { get; set; }
+    public Guid AddressId { get; set; }
+    public AddressDto? Address { get; set; }
     public DateTime JoiningDate { get; set; }
     public Guid ClassId { get; set; }
     public Guid ParentId { get; set; }
-    public Guid? BranchId { get; set; }
+    public Guid SchoolId { get; set; }
     public string? ProfilePicture { get; set; }
     public StudentStatus Status { get; set; }
 }
@@ -221,16 +203,19 @@ public class StudentDto : BaseDto
 public class StudentCreateDto
 {
     public string AdmissionNumber { get; set; } = string.Empty;
+    public string? RollNumber { get; set; }
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public Gender Gender { get; set; }
     public DateTime DOB { get; set; }
     public string BloodGroup { get; set; } = string.Empty;
-    public Guid? AddressId { get; set; }
+    [Required]
+    public AddressCreateDto Address { get; set; } = null!;
     public DateTime JoiningDate { get; set; }
     public Guid ClassId { get; set; }
     public Guid ParentId { get; set; }
-    public Guid? BranchId { get; set; }
+    [Required]
+    public Guid SchoolId { get; set; }
     public string? ProfilePicture { get; set; }
     public StudentStatus Status { get; set; }
 }
@@ -244,8 +229,8 @@ public class ClassRoomDto : BaseDto
     public string ClassName { get; set; } = string.Empty;
     public string AgeGroup { get; set; } = string.Empty;
     public int Capacity { get; set; }
+    public Guid SchoolId { get; set; }
     public Guid? TeacherId { get; set; }
-    public Guid? BranchId { get; set; }
 }
 
 public class ClassRoomCreateDto
@@ -253,8 +238,9 @@ public class ClassRoomCreateDto
     public string ClassName { get; set; } = string.Empty;
     public string AgeGroup { get; set; } = string.Empty;
     public int Capacity { get; set; }
+    [Required]
+    public Guid SchoolId { get; set; }
     public Guid? TeacherId { get; set; }
-    public Guid? BranchId { get; set; }
 }
 
 public class ClassRoomUpdateDto : ClassRoomCreateDto
@@ -457,7 +443,6 @@ public class RegisterRequest
     public string PhoneNumber { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public Guid RoleId { get; set; }
-    public List<Guid> SchoolIds { get; set; } = new();
 }
 
 public class LoginRequest
